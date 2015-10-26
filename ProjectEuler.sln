@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectEuler", "EvenFibonacciNumbers\ProjectEuler.csproj", "{804BB980-7222-4E97-A9A5-B2C2BD73D570}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectEuler", "ProjectEuler\ProjectEuler.csproj", "{804BB980-7222-4E97-A9A5-B2C2BD73D570}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

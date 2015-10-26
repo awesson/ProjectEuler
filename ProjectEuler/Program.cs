@@ -9,7 +9,7 @@ namespace ProjectEuler
 	{
 		static void Main(string[] args)
 		{
-			Console.WriteLine(BasicMath.LargestPalindromeProduct(3));
+			Console.WriteLine(Factors.SmallestCommonMultipleOf1ThroughN(-1));
 		}
 	}
 }

@@ -63,7 +63,7 @@ namespace ProjectEuler
 		public static long LargestPalindromeProduct(int multiplierDigits)
 		{
 			var maxMultiplier = MaxNumberOfNDigits(multiplierDigits);
-			foreach (var prod in Factors.ProductsInIncreasingOrder(maxMultiplier))
+			foreach (var prod in Factors.ProductsInDecreasingOrder(maxMultiplier))
 			{
 				if (IsPalindrome(prod))
 				{
