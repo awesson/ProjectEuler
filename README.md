@@ -1,2 +1,2 @@
 # ProjectEuler
-All code used for solving ProjectEuler problems
+All code used for solving <a href="https://projecteuler.net/archives">ProjectEuler</a> problems
