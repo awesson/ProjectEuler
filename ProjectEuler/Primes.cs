@@ -7,7 +7,17 @@ namespace ProjectEuler
 {
 	class Primes
 	{
-		private static SortedSet<long> s_Primes = new SortedSet<long>();
+		private static HashSet<long> s_Primes = new HashSet<long>();
+		private static List<long> s_SortedPrimes = new List<long>();
+		private static long s_LargestCheckedPrime = 3;
+
+		static Primes()
+		{
+			// 2 is a special case since it is the only even prime.
+			CacheAsPrime(2);
+			// and why not...
+			CacheAsPrime(3);
+		}
 
 		/// <summary>
 		///		Returns a sorted list of all the prime factors of the given number.
@@ -32,16 +42,33 @@ namespace ProjectEuler
 				Factors.ReduceToOddFactor(ref num);
 			}
 			
-			for (int i = 3; i * i < num; )
+			// To weed out unnecessary checks (eg. checking if 12 is a factor after already checking 2 and 3),
+			// only check for primes up until we run out of known primes.
+			int sqrtFloor = (int)Math.Floor(Math.Sqrt((double)num));
+			for (int i = 0; i < s_SortedPrimes.Count && s_SortedPrimes[i] < sqrtFloor; )
 			{
-				if (Factors.IsFactor(i, num))
+				if (Factors.IsFactor(s_SortedPrimes[i], num))
 				{
-					num /= i;
-					primeFactors.Add(i);
+					num /= s_SortedPrimes[i];
+					primeFactors.Add(s_SortedPrimes[i]);
 				}
 				else
 				{
-					i += 2;
+					++i;
+				}
+			}
+
+			var potentialFactor = LargestCachedPrime() + 2;
+			while (potentialFactor < sqrtFloor)
+			{
+				if (Factors.IsFactor(potentialFactor, num))
+				{
+					num /= potentialFactor;
+					primeFactors.Add(potentialFactor);
+				}
+				else
+				{
+					potentialFactor += 2;
 				}
 			}
 
@@ -67,16 +94,8 @@ namespace ProjectEuler
 				return false;
 			}
 
-			// If we have it cached
-			if (s_Primes.Contains(num))
-			{
-				return true;
-			}
-
-			// 2 is the first prime and also the only even prime, so it's a special case
 			if (num == 2)
 			{
-				s_Primes.Add(num);
 				return true;
 			}
 
@@ -87,18 +106,80 @@ namespace ProjectEuler
 				return false;
 			}
 
-			// Check for any odd factors less than the square root of the number.
-			int sqrtFloor = (int)Math.Floor(Math.Sqrt((double)num));
-			for (int i = 3; i <= sqrtFloor; i += 2)
+			// If we have it cached
+			if (s_Primes.Contains(num))
 			{
-				if (Factors.IsFactor(i, num))
+				return true;
+			}
+
+			// To make future calls to IsPrime faster, and to always know all primes up to some N,
+			// find all primes between the old N and the given number.
+			// (Since the given number wasn't in the cache, we haven't already done this.)
+			for (var largestCheckedPrime = s_LargestCheckedPrime; largestCheckedPrime + 2 < num; largestCheckedPrime += 2)
+			{
+				IsPrime(largestCheckedPrime + 2);
+			}
+
+			s_LargestCheckedPrime = num;
+
+			// At this point, we know all prime numbers less than the given number.
+			// Check to see if each prime number less than the sqrt of the given number is a factor.
+			// (We don't care abount non-primes, since they have smaller prime factors which we already checked.)
+			int sqrtFloor = (int)Math.Floor(Math.Sqrt((double)num));
+			foreach(var prime in s_SortedPrimes)
+			{
+				if (prime > sqrtFloor)
+				{
+					break;
+				}
+
+				if (Factors.IsFactor(prime, num))
 				{
 					return false;
 				}
 			}
 
-			s_Primes.Add(num);
+			CacheAsPrime(num);
 			return true;
+		}
+
+		private static void CacheAsPrime(long prime)
+		{
+			if (s_Primes.Add(prime))
+			{
+				s_SortedPrimes.Add(prime);
+			}
+		}
+
+		private static long LargestCachedPrime()
+		{
+			return s_SortedPrimes[s_SortedPrimes.Count - 1];
+		}
+
+		/// <summary>
+		///		Finds the Nth prime number (where 2 is the 1st).
+		/// </summary>
+		/// <param name="n">The prime number to find.</param>
+		/// <returns>The Nth prime number.</returns>
+		public static long NthPrime(int n)
+		{
+			if (n <= 0)
+			{
+				throw new ArgumentOutOfRangeException("NthPrime(): n must be strictly positive.");
+			}
+
+			if (n == 1)
+			{
+				return 2;
+			}
+
+			while (s_SortedPrimes.Count < n)
+			{
+				var largestKnownPrime = LargestCachedPrime();
+				IsPrime(3*largestKnownPrime);
+			}
+
+			return s_SortedPrimes[n];
 		}
 	}
 }

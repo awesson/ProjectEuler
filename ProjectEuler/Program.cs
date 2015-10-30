@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
 
 namespace ProjectEuler
 {
@@ -9,7 +7,14 @@ namespace ProjectEuler
 	{
 		static void Main(string[] args)
 		{
-			Console.WriteLine(Factors.SmallestCommonMultipleOf1ThroughN(-1));
+			Stopwatch sw = new Stopwatch();
+			sw.Start();
+
+			Console.WriteLine(Primes.LargestPrimeFactor(600851475143));
+
+			sw.Stop();
+
+			Console.WriteLine("Elapsed={0}", sw.Elapsed);
 		}
 	}
 }
