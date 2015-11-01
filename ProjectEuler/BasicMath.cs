@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ProjectEuler
 {
-	class BasicMath
+	public class BasicMath
 	{
 		private static long[] s_PowersOfTen = {1,
 											   10,

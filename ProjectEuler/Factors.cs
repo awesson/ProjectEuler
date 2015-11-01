@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ProjectEuler
 {
-	class Factors
+	public class Factors
 	{
 		public static int SumOfMultiplesLessThan(int value, int multiple1, int multiple2)
 		{

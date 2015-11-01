@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ProjectEuler
 {
-	class Primes
+	public class Primes
 	{
 		private static HashSet<long> s_Primes = new HashSet<long>();
 		private static List<long> s_SortedPrimes = new List<long>();

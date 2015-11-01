@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ProjectEuler
 {
-	class Fibonocci
+	public class Fibonacci
 	{
 		public static long EvenSum(int maxN)
 		{

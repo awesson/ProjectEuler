@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ProjectEuler
 {
-	class Series
+	public class Series
 	{
 		/// <summary>
 		/// Calculates the sum of all multiples of <paramref name="mult"/>
