@@ -10,7 +10,7 @@ namespace ProjectEuler
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
 
-			Primes.FindPrimeFactors(600851475143);
+			Console.WriteLine(Factors.FirstTriangleNumberWithAtLeastNFactors(500));
 
 			sw.Stop();
 

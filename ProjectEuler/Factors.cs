@@ -7,7 +7,7 @@ namespace ProjectEuler
 {
 	public class Factors
 	{
-		public static int SumOfMultiplesLessThan(int value, int multiple1, int multiple2)
+		public static long SumOfMultiplesLessThan(long value, long multiple1, long multiple2)
 		{
 			// We don't include the value as a multiple
 			value -= 1;
@@ -23,11 +23,54 @@ namespace ProjectEuler
 			return (num % potentialFactor) == 0;
 		}
 
-		public static void ReduceToOddFactor(ref long n)
+		public static List<long> FindFactors(long num)
 		{
-			while (BasicMath.IsEven(n))
+			var factors = new List<long>();
+
+			// We don't need to check for any factors larger than the square root.
+			var sqrtFloor = (long)Math.Floor(Math.Sqrt((double)num));
+			for (long potentialFactor = 1; potentialFactor < sqrtFloor; ++potentialFactor)
 			{
-				n >>= 1;
+				if (IsFactor(potentialFactor, num))
+				{
+					// Keep track of both the factor we just found and it's compliment factor.
+					// (eg. 3 is a factor of 21, and so is 21/3 = 7)
+					factors.Add(potentialFactor);
+					factors.Add(num/potentialFactor);
+				}
+			}
+
+			// Special case to check if the sqrt is an integer factor.
+			if (sqrtFloor * sqrtFloor == num)
+			{
+				factors.Add(sqrtFloor);
+			}
+
+			return factors;
+		}
+
+		/// <summary>
+		///		Triangle numbers are the sum of integers 1 through N.
+		///		This function finds and returns the smallest triangle number with the given number of factors.
+		/// </summary>
+		public static long FirstTriangleNumberWithAtLeastNFactors(long num)
+		{
+			var triangleNumIndex = 1;
+			var triangleNum = Series.SumUpToVMultM(triangleNumIndex, 1);
+			while (FindFactors(triangleNum).Count < num)
+			{
+				++triangleNumIndex;
+				triangleNum = Series.SumUpToVMultM(triangleNumIndex, 1);
+			}
+
+			return triangleNum;
+		}
+
+		public static void ReduceToOddFactor(ref long num)
+		{
+			while (BasicMath.IsEven(num))
+			{
+				num >>= 1;
 			}
 		}
 
@@ -65,7 +108,7 @@ namespace ProjectEuler
 		}
 
 		/// <summary>
-		///		Returns the smallest common multiple of all the numbers 1 thorugh n.
+		///		Returns the smallest common multiple of all the numbers 1 through n.
 		///		(eg. for n = 4, this is 12 since 12 is divisible by 2, 3, and 4
 		///		and no other number smaller than 12 has this property.)
 		/// </summary>
@@ -76,7 +119,7 @@ namespace ProjectEuler
 				throw new ArgumentException("SmallestCommonMultipleOf1ThroughN(n): n must be positive.");
 			}
 
-			var commonMultiple = 1;
+			var commonMultiple = 1L;
 			// Increase the current common multiple to include each number starting at 2
 			for (int i = 2; i <= n; ++i)
 			{

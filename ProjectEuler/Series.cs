@@ -11,7 +11,7 @@ namespace ProjectEuler
 		/// Calculates the sum of all multiples of <paramref name="mult"/>
 		/// less than or equal to <paramref name="value"/>
 		/// </summary>
-		public static int SumUpToVMultM(int value, int mult)
+		public static long SumUpToVMultM(long value, long mult)
 		{
 			var quotient = value / mult;
 			var n = quotient * mult;
