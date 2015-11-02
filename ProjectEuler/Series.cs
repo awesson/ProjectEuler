@@ -11,11 +11,14 @@ namespace ProjectEuler
 		/// Calculates the sum of all multiples of <paramref name="mult"/>
 		/// less than or equal to <paramref name="value"/>
 		/// </summary>
-		public static long SumUpToVMultM(long value, long mult)
+		public static ulong SumUpToVMultM(ulong value, ulong mult)
 		{
-			var quotient = value / mult;
-			var n = quotient * mult;
-			return ((n + mult) * quotient) / 2;
+			// We know 1 + 2 + 3 + ... + N = (1 + N)N/2
+			// If instead of 1s we want to go by multiples of mult,
+			// mult + 2mult + 3mult + ... + Nmult = mult(1 + N)N/2
+			// where N in this case is the number of times mult goes into value.
+			var N = value / mult;
+			return (mult*(N + 1uL)*N)/2uL;
 		}
 
 		/// <summary>

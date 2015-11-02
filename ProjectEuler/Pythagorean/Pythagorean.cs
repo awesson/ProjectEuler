@@ -7,19 +7,19 @@ using System.Text;
 namespace ProjectEuler.Pythagorean
 {
 	/// <summary>
-	///		A class solving things related to the pythagorean theorem: a^2 + b^2 = c^2
+	///		A class solving things related to the Pythagorean theorem: a^2 + b^2 = c^2
 	/// </summary>
 	public class PythagoreanUtils
 	{
 		/// <summary>
-		///		Finds the pythagorean triple with the given sum.
+		///		Finds the Pythagorean triple with the given sum.
 		/// </summary>
 		/// <param name="sum">The required sum of the triple (a + b + c).</param>
 		/// <param name="Triple">The triple with the given sum.</param>
 		/// <returns>True if a triple was found, false otherwise.</returns>
 		public static bool TripleSum(uint sum, ref Triple Triple)
 		{
-			// See Triple.cs for info about pythagorean Triples used here.
+			// See Triple.cs for info about Pythagorean Triples used here.
 
 			// a + b + c is always even.
 			if (!BasicMath.IsEven(sum))
@@ -31,6 +31,7 @@ namespace ProjectEuler.Pythagorean
 			 * S = a + b + c = k(m^2 - n^2) + (2kmn) + k(m^2 + n^2) = k(2m^2 + 2mn)
 			 * S = 2km(m + n)
 			 * 
+			 * S/(m + n) = 2km
 			 * b = 2kmn = Sn/(m + n) = Sn(m + n)/(m + n)^2
 			 *
 			 * a = k(m^2 - n^2) = k(m - n)(m + n)
@@ -52,7 +53,7 @@ namespace ProjectEuler.Pythagorean
 			 **/
 			// >> 1 is the same as dividing by 2 and << 1 is the same a multiplying by 2.
 			var halfSum = (sum >> 1);
-			for (int a = 1; a < halfSum; a += 1)
+			for (int a = 1; a < halfSum; ++a)
 			{
 				var numerator = sum * (halfSum - a);
 				var denominator = sum - a;

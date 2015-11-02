@@ -7,8 +7,13 @@ namespace ProjectEuler
 {
 	public class Factors
 	{
-		public static long SumOfMultiplesLessThan(long value, long multiple1, long multiple2)
+		public static ulong SumOfMultiplesLessThan(ulong value, ulong multiple1, ulong multiple2)
 		{
+			if (value == 0 || value == 1)
+			{
+				return 0;
+			}
+
 			// We don't include the value as a multiple
 			value -= 1;
 
@@ -23,13 +28,18 @@ namespace ProjectEuler
 			return (num % potentialFactor) == 0;
 		}
 
-		public static List<long> FindFactors(long num)
+		public static bool IsFactor(ulong potentialFactor, ulong num)
 		{
-			var factors = new List<long>();
+			return (num % potentialFactor) == 0;
+		}
+
+		public static List<ulong> FindFactors(ulong num)
+		{
+			var factors = new List<ulong>();
 
 			// We don't need to check for any factors larger than the square root.
-			var sqrtFloor = (long)Math.Floor(Math.Sqrt((double)num));
-			for (long potentialFactor = 1; potentialFactor < sqrtFloor; ++potentialFactor)
+			var sqrtFloor = (ulong)Math.Floor(Math.Sqrt((double)num));
+			for (ulong potentialFactor = 1; potentialFactor < sqrtFloor; ++potentialFactor)
 			{
 				if (IsFactor(potentialFactor, num))
 				{
@@ -53,14 +63,14 @@ namespace ProjectEuler
 		///		Triangle numbers are the sum of integers 1 through N.
 		///		This function finds and returns the smallest triangle number with the given number of factors.
 		/// </summary>
-		public static long FirstTriangleNumberWithAtLeastNFactors(long num)
+		public static ulong FirstTriangleNumberWithAtLeastNFactors(ulong num)
 		{
-			var triangleNumIndex = 1;
-			var triangleNum = Series.SumUpToVMultM(triangleNumIndex, 1);
-			while (FindFactors(triangleNum).Count < num)
+			var triangleNumIndex = 1uL;
+			var triangleNum = Series.SumUpToVMultM(triangleNumIndex, 1uL);
+			while ((ulong)FindFactors(triangleNum).Count < num)
 			{
 				++triangleNumIndex;
-				triangleNum = Series.SumUpToVMultM(triangleNumIndex, 1);
+				triangleNum = Series.SumUpToVMultM(triangleNumIndex, 1uL);
 			}
 
 			return triangleNum;

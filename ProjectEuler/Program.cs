@@ -10,7 +10,7 @@ namespace ProjectEuler
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
 
-			Console.WriteLine(Factors.FirstTriangleNumberWithAtLeastNFactors(500));
+			Console.WriteLine(Fibonacci.EvenSum(4000000));
 
 			sw.Stop();
 
