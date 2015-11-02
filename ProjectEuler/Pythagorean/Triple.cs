@@ -16,7 +16,7 @@ namespace ProjectEuler.Pythagorean
 	///			a = m^2 - n^2
 	///			b = 2mn
 	///			c = m^2 + n^2
-	///			defines all primitive pythagorean Triples.
+	///			defines all primitive pythagorean triples.
 	///			(Primative triples are ones where a, b, and c are coprime.)
 	///			
 	///			We can multiply by a factor of k to get all pythagorean triples:

@@ -10,14 +10,7 @@ namespace ProjectEuler
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
 
-			Pythagorean.Triple ans = new Pythagorean.Triple();
-			uint sum = (uint)((1L << 32) - 2u);
-			while(!Pythagorean.PythagoreanUtils.TripleSum(sum, ref ans))
-			{
-				sum -= 2;
-			}
-			Console.WriteLine(ans);
-			Console.WriteLine(String.Format("Sum = {0}", ans.Sum()));
+			Primes.FindPrimeFactors(600851475143);
 
 			sw.Stop();
 
