@@ -34,6 +34,28 @@ namespace ProjectEuler
 			throw new OverflowException("Could not calculate a Fibonacci number greater than " + maxN);
 		}
 
+		public static long Fibonacci(int n, uint numPrevValues = 2)
+		{
+			if (n <= 0)
+			{
+				return 0;
+			}
+
+			var i = 0;
+			foreach (var fib in FibonacciNums(numPrevValues))
+			{
+				if (i == n)
+				{
+					return fib;
+				}
+
+				++i;
+			}
+
+			throw new OverflowException("Could not calculate the " + n
+									  + " Fibonacci number because it is greater than " + long.MaxValue);
+		}
+
 		/// <summary>
 		///		Returns an enumeration over the Fibonacci numbers.
 		/// </summary>
