@@ -34,7 +34,7 @@ namespace ProjectEuler
 			throw new OverflowException("Could not calculate a Fibonacci number greater than " + maxN);
 		}
 
-		public static long Fibonacci(int n, uint numPrevValues = 2)
+		public static long NthFibonacci(int n, uint numPrevValues = 2)
 		{
 			if (n <= 0)
 			{

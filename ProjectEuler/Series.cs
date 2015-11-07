@@ -57,5 +57,10 @@ namespace ProjectEuler
 		{
 			return nums.Aggregate((prod, num) => prod * num);
 		}
+
+		public static long SumModN(IEnumerable<long> nums, long mod)
+		{
+			return nums.Aggregate((sum, num) => (sum + (num % mod)) % mod);
+		}
 	}
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Numerics;
+using System.IO;
 
 namespace ProjectEuler
 {
@@ -97,6 +99,25 @@ namespace ProjectEuler
 		public static long NthPower10(int pow)
 		{
 			return s_PowersOfTen[pow];
+		}
+
+		public static List<BigInteger> ParseFileIntoBigInts(string file)
+		{
+			var result = new List<BigInteger>();
+			using (var nums = new StreamReader(file))
+			{
+				string line;
+				while ((line = nums.ReadLine()) != null)
+				{
+					BigInteger val;
+					if (BigInteger.TryParse(line, out val))
+					{
+						result.Add(val);
+					}
+				}
+			}
+
+			return result;
 		}
 	}
 }
