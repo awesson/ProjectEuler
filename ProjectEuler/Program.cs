@@ -11,15 +11,7 @@ namespace ProjectEuler
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
 
-			var numArr = BasicMath.ParseFileIntoBigInts(@"..\..\100-50_digit_nums.txt");
-
-			BigInteger sum = 0;
-			foreach (var bigNum in numArr)
-			{
-				sum += bigNum;
-			}
-
-			Console.WriteLine(sum);
+			Console.WriteLine(Series.LongestCollatzSequence(1000000));
 
 			sw.Stop();
 

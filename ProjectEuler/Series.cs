@@ -62,5 +62,61 @@ namespace ProjectEuler
 		{
 			return nums.Aggregate((sum, num) => (sum + (num % mod)) % mod);
 		}
+
+		/// <summary>
+		///		Returns the numbers in a Collatz Sequence, where the next number in the sequence is
+		///		n/2 if it is currently even, or 3n + 1 if it is currently odd.
+		/// </summary>
+		/// <param name="num">The starting number in the sequence.</param>
+		public static IEnumerable<long> CollatzSequence(long num)
+		{
+			if(num <= 0)
+			{
+				throw new ArgumentException("num must be greater than 0");
+			}
+
+			while (num != 1)
+			{
+				yield return num;
+
+				if (BasicMath.IsEven(num))
+				{
+					num >>= 1;
+				}
+				else
+				{
+					num = 3*num + 1;
+				}
+			}
+
+			yield return num;
+		}
+
+		/// <summary>
+		///		Finds and returns the longest Collatz Sequence that starts with
+		///		any number less than the given number.
+		/// </summary>
+		public static long LongestCollatzSequence(long maxStartNum)
+		{
+			var longestLen = -1;
+			long longestStartingNum = 0L;
+			// Since Len(seq(n)) = Len(seq(2n)) - 1, we can double every starting number less than half of the max
+			// and get a new starting number that would have a longer sequence. If after doubling,
+			// it is still less than half, it can be doubled again and the new number would have a
+			// longer sequence and is guaranteed to be less than maxStartingNum (since it was less than half).
+			// Therefore all numbers less than half of the maxStartNum necessarily have shorter sequences than
+			// all even numbers greater than half maxStartNum.
+			for (long i = maxStartNum/2; i < maxStartNum; ++i)
+			{
+				var len = CollatzSequence(i).Count();
+				if (len > longestLen)
+				{
+					longestLen = len;
+					longestStartingNum = i;
+				}
+			}
+
+			return longestStartingNum;
+		}
 	}
 }
