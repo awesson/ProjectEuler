@@ -48,8 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicMath.cs" />
+    <Compile Include="DictionaryExtentions.cs" />
     <Compile Include="Factors.cs" />
     <Compile Include="Fibonacci.cs" />
+    <Compile Include="Geometry\Paths.cs" />
     <Compile Include="Primes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

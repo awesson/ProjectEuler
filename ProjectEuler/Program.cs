@@ -11,7 +11,7 @@ namespace ProjectEuler
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
 
-			Console.WriteLine(Series.LongestCollatzSequence(1000000));
+			Console.WriteLine(Factors.SmallestCommonMultipleOf1ThroughN(30));
 
 			sw.Stop();
 
