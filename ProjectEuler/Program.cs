@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Numerics;
 using System.Linq;
+using ProjectEuler.Trees;
 
 namespace ProjectEuler
 {
@@ -12,14 +13,7 @@ namespace ProjectEuler
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
 
-			var count = 0;
-			for (int i = 1; i <= 1000; ++i)
-			{
-				var strNum = BasicMath.ToSpokenEnglish(i);
-				count += strNum.Count(c => Char.IsLetter(c));
-			}
-
-			Console.WriteLine("Count: "+count);
+			var tree = BinaryTree<int>.LoadInterlacedBinaryTree(@"D:\Development\ProjectEuler\ProjectEuler\p067_triangle.txt", ' ');
 
 			sw.Stop();
 

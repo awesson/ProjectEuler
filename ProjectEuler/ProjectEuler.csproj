@@ -48,7 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicMath.cs" />
-    <Compile Include="DictionaryExtentions.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Factors.cs" />
     <Compile Include="Fibonacci.cs" />
     <Compile Include="Geometry\Paths.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Pythagorean\Pythagorean.cs" />
     <Compile Include="Pythagorean\Triple.cs" />
     <Compile Include="Series.cs" />
+    <Compile Include="Trees\BinaryTrees\BinaryTree.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Settings.settings">

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using ProjectEuler.Geometry;
 
-namespace ProjectEuler
+namespace ProjectEuler.Extensions
 {
-	public static class DictionaryExtentions
+	public static class DictionaryExtensions
 	{
 		public static void AddOrIncrement<TKey>(this Dictionary<TKey, long> countMap,
 														TKey toAdd)
