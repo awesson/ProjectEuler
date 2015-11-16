@@ -27,6 +27,7 @@ namespace ProjectEuler
 		/// </summary>
 		/// <param name="num">The number to find the prime factors of.</param>
 		/// <returns>A sorted list of all the prime factors of the given number.</returns>
+		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="num"/> is long.MinValue.</exception>
 		public static List<long> FindPrimeFactors(long num)
 		{
 			num = Math.Abs(num);
@@ -207,6 +208,7 @@ namespace ProjectEuler
 		/// </summary>
 		/// <param name="n">The prime number to find.</param>
 		/// <returns>The Nth prime number.</returns>
+		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="num"/> is not strictly positive.</exception>
 		public static long NthPrime(int num)
 		{
 			if (num <= 0)

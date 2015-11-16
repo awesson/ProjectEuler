@@ -10,10 +10,21 @@ namespace ProjectEuler
 		/// <summary>
 		///		Calculates and returns the sum of all even Fibonacci numbers less than or equal to the given number.
 		/// </summary>
-		public static long EvenSum(long maxN)
+		/// <param name="maxN">The value of the Fibonacci number at which to stop summing.</param>
+		/// <param name="numPrevValues">
+		///		Optional parameter which allows for a generalization of the Fibonacci numbers.
+		///		The given number is the number of previous terms to use in the sum which defines the next term.
+		///		2 is the default where f(n) = f(n-1) + f(n-2). If for example, 5 was given instead,
+		///		then the new definition would be, f(n) = f(n-1) + f(n-2) + f(n-3) + f(n-4) + f(n-5).
+		///		If <paramref name="numPrevValues"/> is less than 2, it ends iteration right away.
+		/// </param>
+		/// <exception cref="OverflowException">
+		///		If the nth Fibonacci number or the even sum is greater than long.MaxValue.
+		///	</exception>
+		public static long EvenSum(long maxN, int numPrevValues = 2)
 		{
 			var evenSum = 0L;
-			foreach (var fib in FibonacciNums())
+			foreach (var fib in FibonacciNums(numPrevValues))
 			{
 				if (fib > maxN)
 				{
@@ -34,11 +45,23 @@ namespace ProjectEuler
 			throw new OverflowException("Could not calculate a Fibonacci number greater than " + maxN);
 		}
 
-		public static long NthFibonacci(int n, uint numPrevValues = 2)
+		/// <summary>
+		///		Returns the Nth Fibonacci number.
+		/// </summary>
+		/// <param name="numPrevValues">
+		///		Optional parameter which allows for a generalization of the Fibonacci numbers.
+		///		The given number is the number of previous terms to use in the sum which defines the next term.
+		///		2 is the default where f(n) = f(n-1) + f(n-2). If for example, 5 was given instead,
+		///		then the new definition would be, f(n) = f(n-1) + f(n-2) + f(n-3) + f(n-4) + f(n-5).
+		///		If <paramref name="numPrevValues"/> is less than 2, it ends iteration right away.
+		/// </param>
+		/// <returns>The Nth Fibonacci number.</returns>
+		/// <exception cref="OverflowException">If the nth Fibonacci number is greater than long.MaxValue.</exception>
+		public static long NthFibonacci(int n, int numPrevValues = 2)
 		{
-			if (n <= 0)
+			if (n <= 0 || numPrevValues < 2)
 			{
-				return 0;
+				return 0L;
 			}
 
 			var i = 0;
@@ -67,7 +90,8 @@ namespace ProjectEuler
 		///		If <paramref name="numPrevValues"/> is less than 2, it ends iteration right away.
 		/// </param>
 		/// <returns>The next generalized Fibonacci number.</returns>
-		public static IEnumerable<long> FibonacciNums(uint numPrevValues = 2)
+		/// <exception cref="OverflowException">If the next requested number is greater than long.MaxValue.</exception>
+		public static IEnumerable<long> FibonacciNums(int numPrevValues = 2)
 		{
 			if(numPrevValues < 2)
 			{
@@ -93,8 +117,7 @@ namespace ProjectEuler
 				var next = prev.Sum();
 				if (next < prev[numPrevValues - 1])
 				{
-					// It overflowed, stop returning new values.
-					yield break;
+					throw new OverflowException("The value of the next Fibonacci number exceeds long.MaxValue.");
 				}
 
 				yield return next;

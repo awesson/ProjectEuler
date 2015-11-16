@@ -76,10 +76,14 @@ namespace ProjectEuler
 			return (num & 1) == 0;
 		}
 
+		/// <summary>
+		///		Returns whether or not the given number is a palindrome.
+		///		(eg. 12321)
+		/// </summary>
+		/// <exception cref="OverflowException">If <paramref name="num"/> is long.MinValue.</exception>
 		public static bool IsPalindrome(long num)
 		{
-			num = Math.Abs(num);
-			var numDigits = NumDigits((ulong)num);
+			var numDigits = NumDigits(num);
 
 			for (int digit = 0; digit < (numDigits / 2); ++digit)
 			{
@@ -96,21 +100,25 @@ namespace ProjectEuler
 		/// <summary>
 		///		Returns the number of significant digits in the given number.
 		/// </summary>
-		public static int NumDigits(uint num)
+		public static int NumDigits(int num)
 		{
-			return NumDigits((ulong)num);
+			return NumDigits((long)num);
 		}
 
 		/// <summary>
 		///		Returns the number of significant digits in the given number.
 		/// </summary>
-		public static int NumDigits(ulong num)
+		/// <exception cref="OverflowException">If <paramref name="num"/> is long.MinValue.</exception>
+		public static int NumDigits(long num)
 		{
+			num = Math.Abs(num);
+			ulong uNum = (ulong)num;
+
 			var numDigits = 0;
-			while (num > 0)
+			while (uNum > 0)
 			{
 				++numDigits;
-				num /= 10;
+				uNum /= 10;
 			}
 			return numDigits;
 		}
@@ -183,7 +191,7 @@ namespace ProjectEuler
 				return (int)(num / pow10);
 			}
 
-			return (int)((num % nextPow10) / pow10);
+			return (int)Math.Abs((num % nextPow10) / pow10);
 		}
 
 		/// <summary>
@@ -226,6 +234,11 @@ namespace ProjectEuler
 		/// <summary>
 		///		Returns 10^<paramref name="pow"/>.
 		/// </summary>
+		/// <exception cref="ArgumentOutOfRangeException">
+		///		If <paramref name="pow"/> is negative or greater than 18,
+		///		since negative powers of ten are fractions which cannot be represented by a long
+		///		and 10^19 or higher cannot be represented by a long.
+		/// </exception>
 		public static long NthPower10(int pow)
 		{
 			if (pow < 0)
@@ -268,6 +281,7 @@ namespace ProjectEuler
 		///		Returns the spoken name of the given number in English.
 		///		(eg. 1425 => "one thousand four hundred and twenty five")
 		/// </summary>
+		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="num"/> is int.MinValue.</exception>
 		public static string ToSpokenEnglish(long num)
 		{
 			if(num == long.MinValue)

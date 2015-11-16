@@ -17,8 +17,14 @@ namespace ProjectEuler.Pythagorean
 		/// <param name="sum">The required sum of the triple (a + b + c).</param>
 		/// <param name="Triple">The triple with the given sum.</param>
 		/// <returns>True if a triple was found, false otherwise.</returns>
-		public static bool TripleSum(uint sum, ref Triple Triple)
+		public static bool TripleSum(int sum, ref Triple Triple)
 		{
+			if (sum <= 0)
+			{
+				// a, b, and c are strictly positive, so their sum must also be positive.
+				return false;
+			}
+
 			// See Triple.cs for info about Pythagorean Triples used here.
 
 			// a + b + c is always even.

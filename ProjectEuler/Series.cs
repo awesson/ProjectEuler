@@ -69,11 +69,15 @@ namespace ProjectEuler
 		///		n/2 if it is currently even, or 3n + 1 if it is currently odd.
 		/// </summary>
 		/// <param name="num">The starting number in the sequence.</param>
+		/// <exception cref="ArgumentOutOfRangeException">
+		///		If <paramref name="num"/> is 0 or negative.
+		///		The Collatz Sequence is only defined for positive integers.
+		///	</exception>
 		public static IEnumerable<long> CollatzSequence(long num)
 		{
 			if(num <= 0)
 			{
-				throw new ArgumentException("num must be greater than 0");
+				throw new ArgumentOutOfRangeException("num must be greater than 0");
 			}
 
 			while (num != 1)

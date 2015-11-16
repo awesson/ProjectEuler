@@ -15,9 +15,16 @@ namespace ProjectEuler
 
 			Console.WriteLine(Series.LargestSumTopToBottomInBinaryTree(@"D:\Development\ProjectEuler\ProjectEuler\p067_triangle.txt"));
 
+			Print(BasicMath.IsPalindrome(long.MinValue));
+
 			sw.Stop();
 
 			Console.WriteLine("Elapsed={0}", sw.Elapsed);
+		}
+
+		static void Print<T>(T value)
+		{
+			Console.WriteLine(value);
 		}
 	}
 }

@@ -127,11 +127,14 @@ namespace ProjectEuler
 		///		(eg. for n = 4, this is 12 since 12 is divisible by 2, 3, and 4
 		///		and no other number smaller than 12 has this property.)
 		/// </summary>
+		/// <exception cref="ArgumentOutOfRangeException">
+		///		If <paramref name="n"/> is not strictly positive.
+		///	</exception>
 		public static long SmallestCommonMultipleOf1ThroughN(int n)
 		{
 			if (n <= 0)
 			{
-				throw new ArgumentException("SmallestCommonMultipleOf1ThroughN(n): n must be positive.");
+				throw new ArgumentOutOfRangeException("SmallestCommonMultipleOf1ThroughN(n): n must be positive.");
 			}
 
 			var commonMultiple = 1L;
@@ -175,11 +178,12 @@ namespace ProjectEuler
 		/// <summary>
 		///		Returns the greatest common divisor of the given two numbers.
 		/// </summary>
+		/// <exception cref="ArgumentOutOfRangeException">If either number given is long.MinValue.</exception>
 		public static long GCD(long num1, long num2)
 		{
 			if (num1 == long.MinValue || num2 == long.MinValue)
 			{
-				throw new ArgumentException("Can't find the greatest common divisor of " + long.MinValue);
+				throw new ArgumentOutOfRangeException("Can't find the greatest common divisor of " + long.MinValue);
 			}
 
 			int powersOf2InCommon;
