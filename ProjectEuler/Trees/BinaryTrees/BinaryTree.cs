@@ -12,6 +12,12 @@ namespace ProjectEuler.Trees
 	{
 		public T Value { get; set; }
 
+		public BinaryTree<T> Parent { get; set; }
+		public bool IsRoot
+		{
+			get { return Parent == null; }
+		}
+
 		public BinaryTree<T> Left { get; set; }
 		public bool HasLeft
 		{
@@ -107,12 +113,18 @@ namespace ProjectEuler.Trees
 
 		public BinaryTree<T> SetLeftByValue(T value)
 		{
-			return (Left = new BinaryTree<T>(value));
+			var node = new BinaryTree<T>(value);
+			node.Parent = this;
+			Left = new BinaryTree<T>(value);
+			return node;
 		}
 
 		public BinaryTree<T> SetRightByValue(T value)
 		{
-			return (Right = new BinaryTree<T>(value));
+			var node = new BinaryTree<T>(value);
+			node.Parent = this;
+			Right = new BinaryTree<T>(value);
+			return node;
 		}
 
 		public BinaryTree<T> RemoveLeft()

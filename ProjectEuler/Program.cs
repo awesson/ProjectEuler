@@ -13,7 +13,7 @@ namespace ProjectEuler
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
 
-			var tree = BinaryTree<int>.LoadInterlacedBinaryTree(@"D:\Development\ProjectEuler\ProjectEuler\p067_triangle.txt", ' ');
+			Console.WriteLine(Series.LargestSumTopToBottomInBinaryTree(@"D:\Development\ProjectEuler\ProjectEuler\p067_triangle.txt"));
 
 			sw.Stop();
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ProjectEuler.Trees;
 
 namespace ProjectEuler
 {
@@ -117,6 +118,50 @@ namespace ProjectEuler
 			}
 
 			return longestStartingNum;
+		}
+
+		/// <summary>
+		///		Calculates and returns the maximum sum of all nodes,
+		///		starting from the root and going through only 1 child.
+		///		For example, the max sum in the following tree is 23:
+		///		3
+		///		7 4
+		///		2 4 6
+		///		8 5 9 3
+		///		By going through the nodes, 3, 7, 4, 9.
+		/// </summary>
+		/// <param name="treeFile">The file to load the interlaced binary tree from.</param>
+		/// <returns>The largest top to bottom sum in the tree.</returns>
+		public static long LargestSumTopToBottomInBinaryTree(string treeFile)
+		{
+			var tree = BinaryTree<long>.LoadInterlacedBinaryTree(treeFile, ' ');
+			// Recursion depth is the height of the tree.
+			// Since arguments are passes by reference, each stack is 128 bits.
+			// Assuming only 1GB of RAM, this can solve for a tree a height of 62,500,000.
+			return LargestSumTopToBottomInBinaryTreeHelper(tree, new Dictionary<BinaryTree<long>, long>());
+		}
+
+		private static long LargestSumTopToBottomInBinaryTreeHelper(BinaryTree<long> tree,
+																	Dictionary<BinaryTree<long>, long> cachedMaxSums)
+		{
+			// Memoize the results for sub-trees.
+			if (cachedMaxSums.ContainsKey(tree))
+			{
+				return cachedMaxSums[tree];
+			}
+
+			// The max sum of this tree is it's value plus the max, max sum of it's children sub-trees.
+			var maxSum = tree.Value;
+			if (!tree.IsLeaf)
+			{
+				maxSum += Math.Max(LargestSumTopToBottomInBinaryTreeHelper(tree.Left, cachedMaxSums),
+								   LargestSumTopToBottomInBinaryTreeHelper(tree.Right, cachedMaxSums));
+			}
+
+			// Memoize the results for sub-trees.
+			cachedMaxSums[tree] = maxSum;
+
+			return maxSum;
 		}
 	}
 }
