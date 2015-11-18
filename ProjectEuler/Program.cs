@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Numerics;
 using System.Linq;
 using ProjectEuler.Trees;
+using ProjectEuler.Extensions;
 
 namespace ProjectEuler
 {
@@ -13,9 +14,9 @@ namespace ProjectEuler
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
 
-			Console.WriteLine(Series.LargestSumTopToBottomInBinaryTree(@"D:\Development\ProjectEuler\ProjectEuler\p067_triangle.txt"));
+			Print(DateTimeExtensions.NumOccurancesOfDayOnMonthDate(1901, 2000, 1, DayOfWeek.Sunday));
 
-			Print(BasicMath.IsPalindrome(long.MinValue));
+			Print(BasicMath.SumOfDigits(BasicMath.Factorial(100)));
 
 			sw.Stop();
 

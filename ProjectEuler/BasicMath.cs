@@ -231,6 +231,42 @@ namespace ProjectEuler
 			return (int)((num % maxPow10) / minPow10);
 		}
 
+		public static int SumOfDigits<T>(T num)
+		{
+			return SumOfDigits(num.ToString());
+		}
+
+		public static int SumOfDigits(string num)
+		{
+			return num.Select(c => (int)char.GetNumericValue(c)).Sum();
+		}
+
+		/// <summary>
+		///		Returns N! for the given number.
+		/// </summary>
+		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="num"/> is negative.</exception>
+		public static BigInteger Factorial(int num)
+		{
+			if (num < 0)
+			{
+				throw new ArgumentOutOfRangeException(@"Factorial does not have a standard definition
+														for negative integers.");
+			}
+
+			// 0! == 1 by definition of an empty product.
+			if (num == 0)
+			{
+				return 1;
+			}
+
+			var factorial = new BigInteger(num);
+			for (int i = num - 1; i > 1; --i)
+			{
+				factorial *= i;
+			}
+			return factorial;
+		}
+
 		/// <summary>
 		///		Returns 10^<paramref name="pow"/>.
 		/// </summary>
