@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+﻿using System.Diagnostics;
 
 namespace ProjectEuler.Pythagorean
 {
 	/// <summary>
-	///		A class solving things related to the Pythagorean theorem: a^2 + b^2 = c^2
+	///     A class solving things related to the Pythagorean theorem: a^2 + b^2 = c^2
 	/// </summary>
-	public class PythagoreanUtils
+	public static class PythagoreanUtils
 	{
 		/// <summary>
-		///		Finds the Pythagorean triple with the given sum.
+		///     Finds the Pythagorean triple with the given sum.
 		/// </summary>
 		/// <param name="sum">The required sum of the triple (a + b + c).</param>
-		/// <param name="Triple">The triple with the given sum.</param>
+		/// <param name="triple">The triple with the given sum.</param>
 		/// <returns>True if a triple was found, false otherwise.</returns>
-		public static bool TripleSum(int sum, ref Triple Triple)
+		public static bool TripleSum(int sum, ref Triple triple)
 		{
 			if (sum <= 0)
 			{
@@ -25,7 +21,7 @@ namespace ProjectEuler.Pythagorean
 				return false;
 			}
 
-			// See Triple.cs for info about Pythagorean Triples used here.
+			// See triple.cs for info about Pythagorean Triples used here.
 
 			// a + b + c is always even.
 			if (!BasicMath.IsEven(sum))
@@ -59,17 +55,17 @@ namespace ProjectEuler.Pythagorean
 			 **/
 			// >> 1 is the same as dividing by 2 and << 1 is the same a multiplying by 2.
 			var halfSum = (sum >> 1);
-			for (int a = 1; a < halfSum; ++a)
+			for (var a = 1; a < halfSum; ++a)
 			{
 				var numerator = sum * (halfSum - a);
 				var denominator = sum - a;
 				if ((numerator % denominator) == 0)
 				{
-					Triple.A = a;
-					Triple.B = (int)(numerator / denominator);
-					Debug.Assert(Triple.B >= 0);
-					Triple.C = (int)(sum - a - Triple.B);
-					Debug.Assert(Triple.C > 0);
+					triple.A = a;
+					triple.B = numerator / denominator;
+					Debug.Assert(triple.B >= 0);
+					triple.C = sum - a - triple.B;
+					Debug.Assert(triple.C > 0);
 					return true;
 				}
 			}

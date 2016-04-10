@@ -1,35 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Numerics;
 using System.IO;
+using System.Linq;
+using System.Numerics;
 
 namespace ProjectEuler
 {
-	public class BasicMath
+	public static class BasicMath
 	{
-		private static long[] s_PowersOfTen = {1,
-											   10,
-											   100,
-											   1000,
-											   10000,
-											   100000,
-											   1000000,
-											   10000000,
-											   100000000,
-											   1000000000,
-											   10000000000,
-											   100000000000,
-											   1000000000000,
-											   10000000000000,
-											   100000000000000,
-											   1000000000000000,
-											   10000000000000000,
-											   100000000000000000,
-											   1000000000000000000};
-
 		private static Dictionary<long, string> s_BasicNumToSpokenString = new Dictionary<long, string>();
+
+		private static long[] s_PowersOfTen =
+		{
+			1,
+			10,
+			100,
+			1000,
+			10000,
+			100000,
+			1000000,
+			10000000,
+			100000000,
+			1000000000,
+			10000000000,
+			100000000000,
+			1000000000000,
+			10000000000000,
+			100000000000000,
+			1000000000000000,
+			10000000000000000,
+			100000000000000000,
+			1000000000000000000
+		};
 
 		static BasicMath()
 		{
@@ -77,15 +79,15 @@ namespace ProjectEuler
 		}
 
 		/// <summary>
-		///		Returns whether or not the given number is a palindrome.
-		///		(eg. 12321)
+		///     Returns whether or not the given number is a palindrome.
+		///     (eg. 12321)
 		/// </summary>
-		/// <exception cref="OverflowException">If <paramref name="num"/> is long.MinValue.</exception>
+		/// <exception cref="OverflowException">If <paramref name="num" /> is long.MinValue.</exception>
 		public static bool IsPalindrome(long num)
 		{
 			var numDigits = NumDigits(num);
 
-			for (int digit = 0; digit < (numDigits / 2); ++digit)
+			for (var digit = 0; digit < (numDigits / 2); ++digit)
 			{
 				var oppositeDigit = numDigits - digit - 1;
 				if (GetDecimalDigit(num, digit) != GetDecimalDigit(num, oppositeDigit))
@@ -98,21 +100,21 @@ namespace ProjectEuler
 		}
 
 		/// <summary>
-		///		Returns the number of significant digits in the given number.
+		///     Returns the number of significant digits in the given number.
 		/// </summary>
 		public static int NumDigits(int num)
 		{
-			return NumDigits((long)num);
+			return NumDigits((long) num);
 		}
 
 		/// <summary>
-		///		Returns the number of significant digits in the given number.
+		///     Returns the number of significant digits in the given number.
 		/// </summary>
-		/// <exception cref="OverflowException">If <paramref name="num"/> is long.MinValue.</exception>
+		/// <exception cref="OverflowException">If <paramref name="num" /> is long.MinValue.</exception>
 		public static int NumDigits(long num)
 		{
 			num = Math.Abs(num);
-			ulong uNum = (ulong)num;
+			var uNum = (ulong) num;
 
 			var numDigits = 0;
 			while (uNum > 0)
@@ -124,8 +126,8 @@ namespace ProjectEuler
 		}
 
 		/// <summary>
-		///		Finds and returns the largest product of two numbers with the given number of digits.
-		///		(eg. If the number of digits is 2, then the largest product is 9009 = 99 x 91)
+		///     Finds and returns the largest product of two numbers with the given number of digits.
+		///     (eg. If the number of digits is 2, then the largest product is 9009 = 99 x 91)
 		/// </summary>
 		public static long LargestPalindromeProduct(int multiplierDigits)
 		{
@@ -142,8 +144,8 @@ namespace ProjectEuler
 		}
 
 		/// <summary>
-		///		Returns the largest number with the given number of digits.
-		///		(In other words, 9 repeated the given number of times).
+		///     Returns the largest number with the given number of digits.
+		///     (In other words, 9 repeated the given number of times).
 		/// </summary>
 		public static long MaxNumberOfNDigits(int digits)
 		{
@@ -159,7 +161,7 @@ namespace ProjectEuler
 		}
 
 		/// <summary>
-		///		Returns the nth significant digit in base 10 of the given number.
+		///     Returns the nth significant digit in base 10 of the given number.
 		/// </summary>
 		/// <param name="num">The number to find the digit of.</param>
 		/// <param name="digit">The "place" of the digit (eg. 3 would be the thousands place digit).</param>
@@ -177,7 +179,7 @@ namespace ProjectEuler
 				// If the digit is out of range of a long, num can't have a digit there.
 				return 0;
 			}
-			
+
 			try
 			{
 				nextPow10 = NthPower10(digit + 1);
@@ -188,14 +190,14 @@ namespace ProjectEuler
 				// so even if we theoretically could represent the next power of ten and
 				// then take the mod, since num is within the range of a long and
 				// therefore less than the next power of ten, moding wont change the value of num.
-				return (int)(num / pow10);
+				return (int) (num / pow10);
 			}
 
-			return (int)Math.Abs((num % nextPow10) / pow10);
+			return (int) Math.Abs((num % nextPow10) / pow10);
 		}
 
 		/// <summary>
-		///		Returns the 3 digit number in the given section. (eg. 1,347,328 in the 1 section is 347)
+		///     Returns the 3 digit number in the given section. (eg. 1,347,328 in the 1 section is 347)
 		/// </summary>
 		/// <param name="num">The number to find the 3-digit number of.</param>
 		/// <param name="section">The "section" of the 3-digit number (eg. 1 would be the thousands section).</param>
@@ -225,10 +227,10 @@ namespace ProjectEuler
 				// then take the mod, since num is within the range of a long and
 				// therefore less than the power of ten in the next section,
 				// moding wont change the value of num.
-				return (int)(num / minPow10);
+				return (int) (num / minPow10);
 			}
-			
-			return (int)((num % maxPow10) / minPow10);
+
+			return (int) ((num % maxPow10) / minPow10);
 		}
 
 		public static int SumOfDigits<T>(T num)
@@ -238,13 +240,23 @@ namespace ProjectEuler
 
 		public static int SumOfDigits(string num)
 		{
-			return num.Select(c => (int)char.GetNumericValue(c)).Sum();
+			return num.Select(c => (int) char.GetNumericValue(c)).Sum();
 		}
 
 		/// <summary>
-		///		Returns N! for the given number.
+		///     Returns <paramref name="num" /> moved <paramref name="delta" /> away/toward 0.
+		///     (Note: If delta is negative and delta > abs(num), then the return value will change sign.)
 		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="num"/> is negative.</exception>
+		public static long ChangeAbsoluteValue(long num, long delta)
+		{
+			var sign = num < 0 ? -1L : 1L;
+			return num + sign * delta;
+		}
+
+		/// <summary>
+		///     Returns N! for the given number.
+		/// </summary>
+		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="num" /> is negative.</exception>
 		public static BigInteger Factorial(int num)
 		{
 			if (num < 0)
@@ -260,7 +272,7 @@ namespace ProjectEuler
 			}
 
 			var factorial = new BigInteger(num);
-			for (int i = num - 1; i > 1; --i)
+			for (var i = num - 1; i > 1; --i)
 			{
 				factorial *= i;
 			}
@@ -268,12 +280,12 @@ namespace ProjectEuler
 		}
 
 		/// <summary>
-		///		Returns 10^<paramref name="pow"/>.
+		///     Returns 10^<paramref name="pow" />.
 		/// </summary>
 		/// <exception cref="ArgumentOutOfRangeException">
-		///		If <paramref name="pow"/> is negative or greater than 18,
-		///		since negative powers of ten are fractions which cannot be represented by a long
-		///		and 10^19 or higher cannot be represented by a long.
+		///     If <paramref name="pow" /> is negative or greater than 18,
+		///     since negative powers of ten are fractions which cannot be represented by a long
+		///     and 10^19 or higher cannot be represented by a long.
 		/// </exception>
 		public static long NthPower10(int pow)
 		{
@@ -291,8 +303,8 @@ namespace ProjectEuler
 		}
 
 		/// <summary>
-		///		Returns a list of BigIntegers read from the given file which is assumed to
-		///		have each number on it's own line with no punctuation.
+		///     Returns a list of BigIntegers read from the given file which is assumed to
+		///     have each number on it's own line with no punctuation.
 		/// </summary>
 		public static List<BigInteger> ParseFileIntoBigInts(string file)
 		{
@@ -314,13 +326,13 @@ namespace ProjectEuler
 		}
 
 		/// <summary>
-		///		Returns the spoken name of the given number in English.
-		///		(eg. 1425 => "one thousand four hundred and twenty five")
+		///     Returns the spoken name of the given number in English.
+		///     (eg. 1425 => "one thousand four hundred and twenty five")
 		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="num"/> is int.MinValue.</exception>
+		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="num" /> is int.MinValue.</exception>
 		public static string ToSpokenEnglish(long num)
 		{
-			if(num == long.MinValue)
+			if (num == long.MinValue)
 			{
 				throw new ArgumentOutOfRangeException("num cannot be long.MinValue");
 			}
@@ -328,7 +340,7 @@ namespace ProjectEuler
 			var sign = "";
 			var result = "";
 
-			if(num < 0)
+			if (num < 0)
 			{
 				sign = "negative ";
 				num = -num;
@@ -343,7 +355,7 @@ namespace ProjectEuler
 			// Any other two digit number takes the number without the ones place
 			// and the one place name (unless the ones place is 0).
 			// (eg. 42 => 40" "2 => "forty two")
-			if(num < 100)
+			if (num < 100)
 			{
 				result = sign + s_BasicNumToSpokenString[((num % 100) / 10) * 10];
 
@@ -362,12 +374,12 @@ namespace ProjectEuler
 			if (num < 1000)
 			{
 				result = sign
-						+ s_BasicNumToSpokenString[GetDecimalDigit(num, 2)]
-						+ " "
-						+ s_BasicNumToSpokenString[100];
+				         + s_BasicNumToSpokenString[GetDecimalDigit(num, 2)]
+				         + " "
+				         + s_BasicNumToSpokenString[100];
 
 				var twodigit = num % 100;
-				if(twodigit != 0)
+				if (twodigit != 0)
 				{
 					result += " and " + ToSpokenEnglish(twodigit);
 				}
@@ -396,8 +408,8 @@ namespace ProjectEuler
 					else
 					{
 						result = sectionStr
-								+ " " + s_BasicNumToSpokenString[NthPower10(place)] + " "
-								+ result;
+						         + " " + s_BasicNumToSpokenString[NthPower10(place)] + " "
+						         + result;
 					}
 				}
 

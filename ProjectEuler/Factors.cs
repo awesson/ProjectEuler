@@ -1,28 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ProjectEuler
 {
-	public class Factors
+	public static class Factors
 	{
-		public static ulong SumOfMultiplesLessThan(ulong value, ulong multiple1, ulong multiple2)
-		{
-			if (value == 0 || value == 1)
-			{
-				return 0;
-			}
-
-			// We don't include the value as a multiple
-			value -= 1;
-
-			var firstSum = Series.SumUpToVMultM(value, multiple1);
-			var secondSum = Series.SumUpToVMultM(value, multiple2);
-			var overlapOfSums = Series.SumUpToVMultM(value, multiple1 * multiple2);
-			return firstSum + secondSum - overlapOfSums;
-		}
-
 		public static bool IsFactor(long potentialFactor, long num)
 		{
 			return (num % potentialFactor) == 0;
@@ -33,20 +16,27 @@ namespace ProjectEuler
 			return (num % potentialFactor) == 0;
 		}
 
-		public static List<ulong> FindFactors(ulong num)
+		/// <summary>
+		///     Returns a list of all positive factors of the given number
+		///     (even if the number is negative, only positive numbers will be in the returned factor list).
+		/// </summary>
+		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="num" /> is long.MinValue.</exception>
+		public static List<long> FindFactors(long num)
 		{
-			var factors = new List<ulong>();
+			num = Math.Abs(num);
+
+			var factors = new List<long>();
 
 			// We don't need to check for any factors larger than the square root.
-			var sqrtFloor = (ulong)Math.Floor(Math.Sqrt((double)num));
-			for (ulong potentialFactor = 1; potentialFactor < sqrtFloor; ++potentialFactor)
+			var sqrtFloor = (long) Math.Floor(Math.Sqrt(num));
+			for (long potentialFactor = 1; potentialFactor < sqrtFloor; ++potentialFactor)
 			{
 				if (IsFactor(potentialFactor, num))
 				{
 					// Keep track of both the factor we just found and it's compliment factor.
 					// (eg. 3 is a factor of 21, and so is 21/3 = 7)
 					factors.Add(potentialFactor);
-					factors.Add(num/potentialFactor);
+					factors.Add(num / potentialFactor);
 				}
 			}
 
@@ -59,18 +49,24 @@ namespace ProjectEuler
 			return factors;
 		}
 
-		/// <summary>
-		///		Triangle numbers are the sum of integers 1 through N.
-		///		This function finds and returns the smallest triangle number with the given number of factors.
-		/// </summary>
-		public static ulong FirstTriangleNumberWithAtLeastNFactors(ulong num)
+		public static bool GetDivisorType(long num)
 		{
-			var triangleNumIndex = 1uL;
-			var triangleNum = Series.SumUpToVMultM(triangleNumIndex, 1uL);
-			while ((ulong)FindFactors(triangleNum).Count < num)
+			return FindFactors(num).Sum() > num;
+		}
+
+		/// <summary>
+		///     Triangle numbers are the sum of integers 1 through N.
+		///     This function finds and returns the smallest triangle number with the given number of factors.
+		/// </summary>
+		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="num" /> is long.MinValue.</exception>
+		public static long FirstTriangleNumberWithAtLeastNFactors(long num)
+		{
+			var triangleNumIndex = 1L;
+			var triangleNum = Series.SumUpToVMultM(triangleNumIndex, 1L);
+			while (FindFactors(triangleNum).Count < num)
 			{
 				++triangleNumIndex;
-				triangleNum = Series.SumUpToVMultM(triangleNumIndex, 1uL);
+				triangleNum = Series.SumUpToVMultM(triangleNumIndex, 1L);
 			}
 
 			return triangleNum;
@@ -90,10 +86,10 @@ namespace ProjectEuler
 		}
 
 		/// <summary>
-		///		Enumerates a list of the products of two numbers less than or equal to the given number,
-		///		in decreasing order.
-		///		(eg. For a maxMultiplier of 3, it would be 3*3, 3*2, 2*2, 3*1, 2*1, 1*1) 
-		///	</summary>
+		///     Enumerates a list of the products of two numbers less than or equal to the given number,
+		///     in decreasing order.
+		///     (eg. For a maxMultiplier of 3, it would be 3*3, 3*2, 2*2, 3*1, 2*1, 1*1)
+		/// </summary>
 		public static IEnumerable<long> ProductsInDecreasingOrder(long maxMultiplier)
 		{
 			var diffFromMax = 0;
@@ -123,13 +119,13 @@ namespace ProjectEuler
 		}
 
 		/// <summary>
-		///		Returns the smallest common multiple of all the numbers 1 through n.
-		///		(eg. for n = 4, this is 12 since 12 is divisible by 2, 3, and 4
-		///		and no other number smaller than 12 has this property.)
+		///     Returns the smallest common multiple of all the numbers 1 through n.
+		///     (eg. for n = 4, this is 12 since 12 is divisible by 2, 3, and 4
+		///     and no other number smaller than 12 has this property.)
 		/// </summary>
 		/// <exception cref="ArgumentOutOfRangeException">
-		///		If <paramref name="n"/> is not strictly positive.
-		///	</exception>
+		///     If <paramref name="n" /> is not strictly positive.
+		/// </exception>
 		public static long SmallestCommonMultipleOf1ThroughN(int n)
 		{
 			if (n <= 0)
@@ -176,7 +172,7 @@ namespace ProjectEuler
 		}
 
 		/// <summary>
-		///		Returns the greatest common divisor of the given two numbers.
+		///     Returns the greatest common divisor of the given two numbers.
 		/// </summary>
 		/// <exception cref="ArgumentOutOfRangeException">If either number given is long.MinValue.</exception>
 		public static long GCD(long num1, long num2)
@@ -190,8 +186,14 @@ namespace ProjectEuler
 
 			// GCD(0, num) => num
 			// GCD(0, 0) => 0
-			if (num1 == 0) return num2;
-			if (num2 == 0) return num1;
+			if (num1 == 0)
+			{
+				return num2;
+			}
+			if (num2 == 0)
+			{
+				return num1;
+			}
 
 			// Reduce the numbers by common powers of 2.
 			for (powersOf2InCommon = 0; BasicMath.IsEven(num1) && BasicMath.IsEven(num2); ++powersOf2InCommon)
@@ -212,7 +214,9 @@ namespace ProjectEuler
 				// then set num2 = num2 - num1 (which will be even).
 				if (num1 > num2)
 				{
-					long t = num1; num1 = num2; num2 = t;
+					var t = num1;
+					num1 = num2;
+					num2 = t;
 				}
 				num2 = num2 - num1;
 			} while (num2 != 0);

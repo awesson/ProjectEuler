@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using ProjectEuler.Extensions;
 
 namespace ProjectEuler.Trees
@@ -13,18 +11,21 @@ namespace ProjectEuler.Trees
 		public T Value { get; set; }
 
 		public BinaryTree<T> Parent { get; set; }
+
 		public bool IsRoot
 		{
 			get { return Parent == null; }
 		}
 
 		public BinaryTree<T> Left { get; set; }
+
 		public bool HasLeft
 		{
 			get { return Left != null; }
 		}
 
 		public BinaryTree<T> Right { get; set; }
+
 		public bool HasRight
 		{
 			get { return Right != null; }
@@ -45,11 +46,11 @@ namespace ProjectEuler.Trees
 		}
 
 		/// <summary>
-		///		Creates a binary tree as defined by the given file.
-		///		Expects the nodes to be laid out with each line being a level of the tree,
-		///		and each node separated by the given delimiter.
-		///		In the interlaced binary tree, each interior node has two parents
-		///		(and therefore two adjacent nodes share a child).
+		///     Creates a binary tree as defined by the given file.
+		///     Expects the nodes to be laid out with each line being a level of the tree,
+		///     and each node separated by the given delimiter.
+		///     In the interlaced binary tree, each interior node has two parents
+		///     (and therefore two adjacent nodes share a child).
 		/// </summary>
 		/// <param name="filename"></param>
 		public static BinaryTree<T> LoadInterlacedBinaryTree(string filename, char delimiter = ' ')
@@ -73,7 +74,7 @@ namespace ProjectEuler.Trees
 					var index = 0;
 					foreach (var nodeValue in levelNodeValues)
 					{
-						if(prevLevelNodes == null)
+						if (prevLevelNodes == null)
 						{
 							// This is the first level and root node
 							Debug.Assert(levelNodeValues.Count() == 1);
@@ -81,23 +82,20 @@ namespace ProjectEuler.Trees
 							levelNodes.Add(tree);
 							break;
 						}
-						else
-						{
-							// Make a new node for the current value.
-							var node = new BinaryTree<T>(nodeValue);
-							// Build of the list of nodes being created for this level in the tree.
-							levelNodes.Add(node);
+						// Make a new node for the current value.
+						var node = new BinaryTree<T>(nodeValue);
+						// Build of the list of nodes being created for this level in the tree.
+						levelNodes.Add(node);
 
-							// Set the left and right nodes of the previous
-							// level nodes, which should point to this new node.
-							if(index < prevLevelNodes.Count)
-							{
-								prevLevelNodes[index].Left = node;
-							}
-							if (index > 0)
-							{
-								prevLevelNodes[index - 1].Right = node;
-							}
+						// Set the left and right nodes of the previous
+						// level nodes, which should point to this new node.
+						if (index < prevLevelNodes.Count)
+						{
+							prevLevelNodes[index].Left = node;
+						}
+						if (index > 0)
+						{
+							prevLevelNodes[index - 1].Right = node;
 						}
 
 						++index;

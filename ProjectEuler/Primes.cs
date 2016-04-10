@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ProjectEuler
 {
-	public class Primes
+	public static class Primes
 	{
+		private static long s_LargestCheckedPrime;
 		private static HashSet<long> s_Primes = new HashSet<long>();
 		private static List<long> s_SortedPrimes = new List<long>();
-		private static long s_LargestCheckedPrime;
 
 		static Primes()
 		{
@@ -23,11 +22,11 @@ namespace ProjectEuler
 		}
 
 		/// <summary>
-		///		Returns a sorted list of all the prime factors of the given number.
+		///     Returns a sorted list of all the prime factors of the given number.
 		/// </summary>
 		/// <param name="num">The number to find the prime factors of.</param>
 		/// <returns>A sorted list of all the prime factors of the given number.</returns>
-		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="num"/> is long.MinValue.</exception>
+		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="num" /> is long.MinValue.</exception>
 		public static List<long> FindPrimeFactors(long num)
 		{
 			num = Math.Abs(num);
@@ -45,15 +44,15 @@ namespace ProjectEuler
 				primeFactors.Add(2);
 				Factors.ReduceToOddFactor(ref num);
 			}
-			
+
 			// We are looking for prime factors, so start checking all the primes we know about.
 			// Since a factor of num can't be more than it's square root,
 			// we can stop the loop once the prime we are checking is larger than num's sqrt.
 			// (We could generate all primes up to the sqrt before we do this
 			// so that we only have to check primes, rather than go through the second for loop below,
 			// but that overhead makes the whole function take more time, potentially a lot more.)
-			int i = 0;
-			while (i < s_SortedPrimes.Count && s_SortedPrimes[i]*s_SortedPrimes[i] <= num)
+			var i = 0;
+			while (i < s_SortedPrimes.Count && s_SortedPrimes[i] * s_SortedPrimes[i] <= num)
 			{
 				// If we find a factor, reduce the number as many times as that factor goes into it
 				// before moving on to the next potential factor.
@@ -76,7 +75,7 @@ namespace ProjectEuler
 			// the current number. This contradicts that it's the smallest factor of the current number.
 			// Therefore, if we do find a factor, that factor is necessarily prime.
 			var potentialFactor = LargestSortedCachedPrime() + 2;
-			while (potentialFactor*potentialFactor <= num)
+			while (potentialFactor * potentialFactor <= num)
 			{
 				if (Factors.IsFactor(potentialFactor, num))
 				{
@@ -102,7 +101,7 @@ namespace ProjectEuler
 		}
 
 		/// <summary>
-		///		Finds and returns the largest prime factor of the given number.
+		///     Finds and returns the largest prime factor of the given number.
 		/// </summary>
 		public static long LargestPrimeFactor(long num)
 		{
@@ -137,10 +136,10 @@ namespace ProjectEuler
 			}
 
 			// We don't need to check for any factors larger than the square root.
-			var sqrtFloor = (long)Math.Floor(Math.Sqrt((double)num));
+			var sqrtFloor = (long) Math.Floor(Math.Sqrt(num));
 
 			// First check if any known primes are factors.
-			foreach(var prime in s_SortedPrimes)
+			foreach (var prime in s_SortedPrimes)
 			{
 				if (prime > sqrtFloor)
 				{
@@ -160,8 +159,8 @@ namespace ProjectEuler
 			// (and if all prime factors of a number are not factors of some other number,
 			// than that number cannot be a factor of the other number).
 			for (var potentialFactor = LargestSortedCachedPrime() + 2;
-				potentialFactor <= sqrtFloor;
-				potentialFactor += 2)
+			     potentialFactor <= sqrtFloor;
+			     potentialFactor += 2)
 			{
 				if (Factors.IsFactor(potentialFactor, num))
 				{
@@ -194,8 +193,8 @@ namespace ProjectEuler
 		}
 
 		/// <summary>
-		///		Finds and returns all primes less than or equal to the given number,
-		///		in order of smallest to largest.
+		///     Finds and returns all primes less than or equal to the given number,
+		///     in order of smallest to largest.
 		/// </summary>
 		public static IEnumerable<long> PrimesUptoN(long num)
 		{
@@ -204,11 +203,11 @@ namespace ProjectEuler
 		}
 
 		/// <summary>
-		///		Finds the Nth prime number (where 2 is the 1st).
+		///     Finds the Nth prime number (where 2 is the 1st).
 		/// </summary>
 		/// <param name="n">The prime number to find.</param>
 		/// <returns>The Nth prime number.</returns>
-		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="num"/> is not strictly positive.</exception>
+		/// <exception cref="ArgumentOutOfRangeException">If <paramref name="num" /> is not strictly positive.</exception>
 		public static long NthPrime(int num)
 		{
 			if (num <= 0)
@@ -220,14 +219,14 @@ namespace ProjectEuler
 			// we currently know about until we know about num primes.
 			while (s_SortedPrimes.Count < num)
 			{
-				GeneratePrimesUpToN(2*LargestSortedCachedPrime());
+				GeneratePrimesUpToN(2 * LargestSortedCachedPrime());
 			}
 
 			return s_SortedPrimes[num - 1];
 		}
 
 		/// <summary>
-		///		Finds and returns the sum of all primes less than or equal to the given number.
+		///     Finds and returns the sum of all primes less than or equal to the given number.
 		/// </summary>
 		public static long SumOfPrimesUpToN(int num)
 		{
