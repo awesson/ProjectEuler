@@ -53,7 +53,6 @@ namespace ProjectEuler.Pythagorean
 			 * or in other words, S(S/2 - a) % (S - a) = 0.
 			 * (Since S is even S/2 will always be an integer.)
 			 **/
-			// >> 1 is the same as dividing by 2 and << 1 is the same a multiplying by 2.
 			var halfSum = (sum >> 1);
 			for (var a = 1; a < halfSum; ++a)
 			{
