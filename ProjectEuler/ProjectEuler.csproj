@@ -48,12 +48,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicMath.cs" />
+    <Compile Include="Extensions\ArrayExtentions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Factors.cs" />
     <Compile Include="Fibonacci.cs" />
     <Compile Include="Geometry\Paths.cs" />
+    <Compile Include="Permutations.cs" />
     <Compile Include="Primes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

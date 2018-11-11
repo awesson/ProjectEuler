@@ -10,9 +10,11 @@ namespace ProjectEuler
 			var sw = new Stopwatch();
 			sw.Start();
 
-			Primes.NthPrime(1000001);
+			var perm = Permutations.NthLexographicPermutation(new char[10] {'4', '1', '2', '3', '0', '5', '6', '7', '8', '9'}, 1000000);
 
 			sw.Stop();
+
+			Print(perm);
 
 			Console.WriteLine("Elapsed={0}", sw.Elapsed);
 		}
