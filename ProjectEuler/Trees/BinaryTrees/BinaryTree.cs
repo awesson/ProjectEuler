@@ -113,7 +113,7 @@ namespace ProjectEuler.Trees
 		{
 			var node = new BinaryTree<T>(value);
 			node.Parent = this;
-			Left = new BinaryTree<T>(value);
+			Left = node;
 			return node;
 		}
 
@@ -121,7 +121,7 @@ namespace ProjectEuler.Trees
 		{
 			var node = new BinaryTree<T>(value);
 			node.Parent = this;
-			Right = new BinaryTree<T>(value);
+			Right = node;
 			return node;
 		}
 

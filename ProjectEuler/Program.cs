@@ -11,21 +11,9 @@ namespace ProjectEuler
 			var sw = new Stopwatch();
 			sw.Start();
 
-			var denomWithLongestRepeatLength = -1;
-			var longestRepeatLength = -1;
-			for (var denom = 2; denom < 1000; ++denom)
-			{
-				var len = BasicMath.GetUnitFractionRecurringDecimal(denom).Length;
-				if (len > longestRepeatLength)
-				{
-					denomWithLongestRepeatLength = denom;
-					longestRepeatLength = len;
-				}
-			}
+			Console.WriteLine(Series.LargestSumTopToBottomInBinaryTree(@"D:\Development\ProjectEuler\ProjectEuler\p067_triangle.txt"));
 
 			sw.Stop();
-
-			Print(denomWithLongestRepeatLength);
 
 			Console.WriteLine("Elapsed={0}", sw.Elapsed);
 		}
