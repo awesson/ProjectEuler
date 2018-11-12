@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace ProjectEuler
 {
@@ -10,11 +11,12 @@ namespace ProjectEuler
 			var sw = new Stopwatch();
 			sw.Start();
 
-			var perm = Permutations.NthLexographicPermutation(new char[10] {'4', '1', '2', '3', '0', '5', '6', '7', '8', '9'}, 1000000);
+			var n = 0;
+			Fibonacci.FibonacciNums().First(x => { ++n; return BasicMath.NumDigits(x) >= 1000; });
 
 			sw.Stop();
 
-			Print(perm);
+			Print(n);
 
 			Console.WriteLine("Elapsed={0}", sw.Elapsed);
 		}

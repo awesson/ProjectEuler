@@ -104,25 +104,24 @@ namespace ProjectEuler
 		/// </summary>
 		public static int NumDigits(int num)
 		{
-			return NumDigits((long) num);
+			return NumDigits((BigInteger) num);
+		}
+
+		/// <summary>
+		///     Returns the number of significant digits in the given number.
+		/// </summary>
+		public static int NumDigits(long num)
+		{
+			return NumDigits((BigInteger) num);
 		}
 
 		/// <summary>
 		///     Returns the number of significant digits in the given number.
 		/// </summary>
 		/// <exception cref="OverflowException">If <paramref name="num" /> is long.MinValue.</exception>
-		public static int NumDigits(long num)
+		public static int NumDigits(BigInteger num)
 		{
-			num = Math.Abs(num);
-			var uNum = (ulong) num;
-
-			var numDigits = 0;
-			while (uNum > 0)
-			{
-				++numDigits;
-				uNum /= 10;
-			}
-			return numDigits;
+			return num.ToString().Length;
 		}
 
 		/// <summary>

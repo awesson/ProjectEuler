@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace ProjectEuler
 {
@@ -20,9 +21,9 @@ namespace ProjectEuler
 		/// <exception cref="OverflowException">
 		///     If the nth Fibonacci number or the even sum is greater than long.MaxValue.
 		/// </exception>
-		public static long EvenSum(long maxN, int numPrevValues = 2)
+		public static BigInteger EvenSum(BigInteger maxN, int numPrevValues = 2)
 		{
-			var evenSum = 0L;
+			BigInteger evenSum = 0;
 			foreach (var fib in FibonacciNums(numPrevValues))
 			{
 				if (fib > maxN)
@@ -30,14 +31,9 @@ namespace ProjectEuler
 					return evenSum;
 				}
 
-				if (BasicMath.IsEven(fib))
+				if (fib.IsEven)
 				{
-					var prevSum = evenSum;
 					evenSum += fib;
-					if (evenSum < prevSum)
-					{
-						throw new OverflowException("The sum is greater than a max long");
-					}
 				}
 			}
 
@@ -47,6 +43,7 @@ namespace ProjectEuler
 		/// <summary>
 		///     Returns the Nth Fibonacci number.
 		/// </summary>
+		/// <param name="n">Which fibonacci number to return.</param>
 		/// <param name="numPrevValues">
 		///     Optional parameter which allows for a generalization of the Fibonacci numbers.
 		///     The given number is the number of previous terms to use in the sum which defines the next term.
@@ -55,27 +52,14 @@ namespace ProjectEuler
 		///     If <paramref name="numPrevValues" /> is less than 2, it ends iteration right away.
 		/// </param>
 		/// <returns>The Nth Fibonacci number.</returns>
-		/// <exception cref="OverflowException">If the nth Fibonacci number is greater than long.MaxValue.</exception>
-		public static long NthFibonacci(int n, int numPrevValues = 2)
+		public static BigInteger NthFibonacci(int n, int numPrevValues = 2)
 		{
 			if (n <= 0 || numPrevValues < 2)
 			{
 				return 0L;
 			}
-
-			var i = 0;
-			foreach (var fib in FibonacciNums(numPrevValues))
-			{
-				if (i == n)
-				{
-					return fib;
-				}
-
-				++i;
-			}
-
-			throw new OverflowException("Could not calculate the " + n
-			                            + " Fibonacci number because it is greater than " + long.MaxValue);
+			
+			return FibonacciNums(numPrevValues).ElementAt(n);
 		}
 
 		/// <summary>
@@ -89,8 +73,7 @@ namespace ProjectEuler
 		///     If <paramref name="numPrevValues" /> is less than 2, it ends iteration right away.
 		/// </param>
 		/// <returns>The next generalized Fibonacci number.</returns>
-		/// <exception cref="OverflowException">If the next requested number is greater than long.MaxValue.</exception>
-		public static IEnumerable<long> FibonacciNums(int numPrevValues = 2)
+		public static IEnumerable<BigInteger> FibonacciNums(int numPrevValues = 2)
 		{
 			if (numPrevValues < 2)
 			{
@@ -101,23 +84,20 @@ namespace ProjectEuler
 
 			yield return 1;
 
-			var prev = new long[numPrevValues];
-			prev[1] = 1L;
+			var prev = new BigInteger[numPrevValues];
+			prev[1] = 1;
 
-			var N = 2;
-			while (N < numPrevValues)
+			var n = 2;
+			while (n < numPrevValues)
 			{
-				prev[N] = prev.Sum();
-				yield return prev[N];
+				prev[n] =  prev.Aggregate(BigInteger.Add);
+				yield return prev[n];
+				++n;
 			}
 
 			while (true)
 			{
-				var next = prev.Sum();
-				if (next < prev[numPrevValues - 1])
-				{
-					throw new OverflowException("The value of the next Fibonacci number exceeds long.MaxValue.");
-				}
+				var next = prev.Aggregate(BigInteger.Add);
 
 				yield return next;
 
