@@ -11,12 +11,21 @@ namespace ProjectEuler
 			var sw = new Stopwatch();
 			sw.Start();
 
-			var n = 0;
-			Fibonacci.FibonacciNums().First(x => { ++n; return BasicMath.NumDigits(x) >= 1000; });
+			var denomWithLongestRepeatLength = -1;
+			var longestRepeatLength = -1;
+			for (var denom = 2; denom < 1000; ++denom)
+			{
+				var len = BasicMath.GetUnitFractionRecurringDecimal(denom).Length;
+				if (len > longestRepeatLength)
+				{
+					denomWithLongestRepeatLength = denom;
+					longestRepeatLength = len;
+				}
+			}
 
 			sw.Stop();
 
-			Print(n);
+			Print(denomWithLongestRepeatLength);
 
 			Console.WriteLine("Elapsed={0}", sw.Elapsed);
 		}

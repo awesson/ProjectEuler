@@ -302,6 +302,48 @@ namespace ProjectEuler
 		}
 
 		/// <summary>
+		///		Returns a string containing the part of the decimal representation of the fraction
+		///		1/<paramref name="denominator"/> which repeats. If the decimal terminates, eg. 1/8 = 0.125,
+		///		then the empty string is returned. It also only returns the recurring part,
+		///		eg. 1/6 = 0.1(6) would return "6".
+		/// </summary>
+		/// <param name="denominator">The bottom part of the fraction (the top is assumed to be 1, making it a unit fraction).</param>
+		/// <returns>The recurring part of the decimal representation or the empty string if the decimal terminates.</returns>
+		public static string GetUnitFractionRecurringDecimal(int denominator)
+		{
+			string decimalDigits = "";
+			var seenRemainders = new Dictionary<int, int>();
+			
+			var remainder = 10;
+			// Do long division until there's a repeat or we've found the whole decimal.
+			// We've found the whole decimal if the remainder is 0
+			// (at this point we are just adding 0s to the end of a decimal which does nothing).
+			// We are at the end of a recurring pattern if the remainer is the same as one that we
+			// saw in a previous step (since the denominator isn't changing, if the remainder is the same,
+			// we will get the same values for the digits too).
+			while (remainder != 0 && !seenRemainders.ContainsKey(remainder))
+			{
+				seenRemainders.Add(remainder, decimalDigits.Length);
+				while (remainder < denominator)
+				{
+					remainder *= 10;
+				}
+				var nextDigit = remainder / denominator;
+				decimalDigits += nextDigit;
+				remainder = remainder - nextDigit * denominator;
+			}
+
+			if (remainder == 0)
+			{
+				// It terminates, so no recurring part
+				return "";
+			}
+
+			var beginingOfPattern = seenRemainders[remainder];
+			return decimalDigits.Substring(beginingOfPattern);
+		}
+
+		/// <summary>
 		///     Returns a list of BigIntegers read from the given file which is assumed to
 		///     have each number on it's own line with no punctuation.
 		/// </summary>
