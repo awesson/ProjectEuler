@@ -232,14 +232,14 @@ namespace ProjectEuler
 			return (int) ((num % maxPow10) / minPow10);
 		}
 
-		public static int SumOfDigits<T>(T num)
+		public static int SumOfDigits<T>(T num, int pow = 1)
 		{
-			return SumOfDigits(num.ToString());
+			return SumOfDigits(num.ToString(), pow);
 		}
 
-		public static int SumOfDigits(string num)
+		public static int SumOfDigits(string num, int pow = 1)
 		{
-			return num.Select(c => (int) char.GetNumericValue(c)).Sum();
+			return num.Select(c => Pow((int) char.GetNumericValue(c), pow)).Sum();
 		}
 
 		/// <summary>
@@ -299,6 +299,36 @@ namespace ProjectEuler
 			}
 
 			return s_PowersOfTen[pow];
+		}
+
+		public static int Pow(int x, int power)
+		{
+			var val = 1;
+			for (var i = 0; i < power; ++i)
+			{
+				val *= x;
+			}
+			return val;
+		}
+
+		public static BigInteger Pow(BigInteger x, int power)
+		{
+			BigInteger val = 1;
+			for (var i = 0; i < power; ++i)
+			{
+				val *= x;
+			}
+			return val;
+		}
+
+		public static float Pow(float x, int power)
+		{
+			var val = 1f;
+			for (var i = 0; i < power; ++i)
+			{
+				val *= x;
+			}
+			return val;
 		}
 
 		/// <summary>
