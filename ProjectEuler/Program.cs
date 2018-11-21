@@ -13,7 +13,7 @@ namespace ProjectEuler
 			var sw = new Stopwatch();
 			sw.Start();
 
-			var ans = Problem30();
+			var ans = Problem31();
 
 			sw.Stop();
 
@@ -172,6 +172,11 @@ namespace ProjectEuler
 				}
 			}
 			return sum;
+		}
+
+		private static int Problem31()
+		{
+			return Combinatorics.AdditionCombinations(new[] { 1, 2, 5, 10, 20, 50, 100, 200 }, 200);
 		}
 	}
 }
